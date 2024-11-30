@@ -41,7 +41,7 @@ namespace ServiceUser.WebApi.Controllers
         //[ProducesResponseType(StatusCodes.Status200OK)]
         //[ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(UserProfileNotFoundException))]
         //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [HttpDelete]
+        [HttpDelete("account")]
         public async Task DeleteUserProfileByAccountIdAsync([FromQuery] Guid accountId, CancellationToken cancellationToken)
         {
             await _userProfileService.GetUserProfileByIdAsync(accountId, cancellationToken);
