@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>0743ae5e-0703-45a3-b09f-223b701c4685</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Infrastructure\ServiceUser.DataEntityFramework\ServiceUser.DataEntityFramework.csproj" />
+    <ProjectReference Include="..\..\ServiceUser.Domain\ServiceUser.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
