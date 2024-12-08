@@ -44,7 +44,8 @@ namespace ServiceUser.WebApi.Controllers
         [HttpDelete("account")]
         public async Task DeleteUserProfileByAccountIdAsync([FromQuery] Guid accountId, CancellationToken cancellationToken)
         {
-            await _userProfileService.GetUserProfileByIdAsync(accountId, cancellationToken);
+            await _userProfileService.DeleteUserProfileByAccountIdAsync(accountId, cancellationToken);
+            //TODO: цепочка удаления профиля животного
         }
 
         //[ProducesResponseType(StatusCodes.Status200OK)]
@@ -54,6 +55,7 @@ namespace ServiceUser.WebApi.Controllers
         public async Task<UserProfileResponse> AddUserProfileAsync([FromBody] AddUserProfileRequest request,CancellationToken cancellationToken)
         {
             var userProfile = await _userProfileService.AddUserProfileAsync(request.AccountId, cancellationToken);
+            //TODO: цепочка добавления профиля животного
             return _mapper.Map<UserProfileResponse>(userProfile);
         }
 
