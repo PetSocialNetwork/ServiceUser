@@ -19,7 +19,7 @@ namespace ServiceUser.WebApi.Mappings
                 .ForMember(dest => dest.PetId, opt => opt.MapFrom(src => src.PetId))
                 .ForMember(dest => dest.AccountId, opt => opt.MapFrom(src => src.AccountId));
 
-            CreateMap<UpdatedUserProfileRequest, UserProfile>();
+            CreateMap<UpdateUserProfileRequest, UserProfile>();
         }
     }
 }

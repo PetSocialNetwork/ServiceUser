@@ -2,7 +2,7 @@
 
 namespace ServiceUser.WebApi.Models.Requests
 {
-    public class UpdatedUserProfileRequest
+    public class UpdateUserProfileRequest
     {
         [Required]
         public Guid Id { get; init; }

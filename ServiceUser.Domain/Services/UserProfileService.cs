@@ -67,7 +67,7 @@ namespace ServiceUser.Domain.Services
             await _userProfileRepository.Delete(existedProfile, cancellationToken);
         }
 
-        public async Task DeleteUserProfileByAccountIdAsync(Guid accountId, CancellationToken cancellationToken)
+        public async Task<Guid> DeleteUserProfileByAccountIdAsync(Guid accountId, CancellationToken cancellationToken)
         {
             var existedProfile = await _userProfileRepository.FindUserProfileByAccountIdAsync(accountId, cancellationToken);
             if (existedProfile is null)
@@ -76,6 +76,9 @@ namespace ServiceUser.Domain.Services
             }
 
             await _userProfileRepository.Delete(existedProfile, cancellationToken);
+            //как быть
+            //return existedProfile.PetId;
+            return Guid.Empty;
         }
 
         private bool IsAddUserProfileAvailable(Guid accountId, CancellationToken cancellationToken)
