@@ -5,7 +5,7 @@ namespace ServiceUser.DataEntityFramework
 {
     public class AppDbContext : DbContext
     {
-        DbSet<UserProfile> UserProfiles => Set<UserProfile>();
+        public DbSet<UserProfile> UserProfiles => Set<UserProfile>();
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options) { }
 

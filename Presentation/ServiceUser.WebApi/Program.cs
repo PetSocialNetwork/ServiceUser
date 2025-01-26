@@ -1,14 +1,22 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using ServiceUser.DataEntityFramework;
 using ServiceUser.DataEntityFramework.Repositories;
 using ServiceUser.Domain.Interfaces;
 using ServiceUser.Domain.Services;
+using ServiceUser.WebApi.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<CentralizedExceptionHandlingFilter>();
+});
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "UserService", Version = "v1" });
+});
 
 builder.Services.AddDbContext<AppDbContext>(options =>
              options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
@@ -24,7 +32,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

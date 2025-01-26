@@ -32,6 +32,16 @@ namespace ServiceUser.WebApi.Controllers
         //[ProducesResponseType(StatusCodes.Status200OK)]
         //[ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(UserProfileNotFoundException))]
         //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [HttpGet("[action]")]
+        public async Task<UserProfileResponse> GetUserProfileByAccountIdAsync([FromQuery] Guid id, CancellationToken cancellationToken)
+        {
+            var userProfile = await _userProfileService.GetUserProfileByAccountIdAsync(id, cancellationToken);
+            return _mapper.Map<UserProfileResponse>(userProfile);
+        }
+
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(UserProfileNotFoundException))]
+        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpDelete("[action]")]
         public async Task DeleteUserProfileAsync([FromQuery] Guid id, CancellationToken cancellationToken)
         {

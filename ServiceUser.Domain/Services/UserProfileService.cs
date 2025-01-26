@@ -25,14 +25,25 @@ namespace ServiceUser.Domain.Services
             }
         }
 
+        public async Task<UserProfile> GetUserProfileByAccountIdAsync(Guid accountId, CancellationToken cancellationToken)
+        {
+            var existedProfile = await _userProfileRepository.FindUserProfileByAccountIdAsync(accountId, cancellationToken);
+            if (existedProfile is null)
+            {
+                throw new UserProfileNotFoundException("Пользователя с таким профилем не существует.");
+            }
+
+           return existedProfile;
+        }
+
         public async Task<UserProfile> AddUserProfileAsync(Guid accountId, CancellationToken cancellationToken)
         {
-            if (!IsAddUserProfileAvailable(accountId, cancellationToken))
+            if (!await IsAddUserProfileAvailable(accountId, cancellationToken))
             {
                 throw new UserProfileWithAccountAlreadyExistsException("У данного аккаунта профиль уже существует.");
             };
 
-            UserProfile userProfile = new UserProfile(Guid.NewGuid(), accountId);
+            UserProfile userProfile = new UserProfile(Guid.NewGuid(), accountId) { IsProfileCompleted = false };
 
             await _userProfileRepository.Add(userProfile, cancellationToken);
             return userProfile;
@@ -41,7 +52,7 @@ namespace ServiceUser.Domain.Services
         public async Task UpdateUserProfileAsync(UserProfile userProfile, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(userProfile);
-            var existedProfile = await _userProfileRepository.FindUserProfileAsync(userProfile.Id, cancellationToken);
+            var existedProfile = await _userProfileRepository.FindUserProfileAsync(userProfile.AccountId, cancellationToken);
             if (existedProfile is null)
             {
                 throw new UserProfileNotFoundException("Пользователя с таким профилем не существует.");
@@ -52,8 +63,10 @@ namespace ServiceUser.Domain.Services
             existedProfile.FirstName = userProfile.FirstName;
             existedProfile.LastName = userProfile.LastName;
             existedProfile.WalksDogs = userProfile.WalksDogs;
+            //Ставим true, так как Имя и Фамилия, передаваемы через request не могут быть переданными пустыми
+            existedProfile.IsProfileCompleted = true;
 
-            await _userProfileRepository.Update(userProfile, cancellationToken);
+            await _userProfileRepository.Update(existedProfile, cancellationToken);
         }
 
         public async Task DeleteUserProfileAsync(Guid id, CancellationToken cancellationToken)
@@ -67,7 +80,7 @@ namespace ServiceUser.Domain.Services
             await _userProfileRepository.Delete(existedProfile, cancellationToken);
         }
 
-        public async Task<Guid> DeleteUserProfileByAccountIdAsync(Guid accountId, CancellationToken cancellationToken)
+        public async Task DeleteUserProfileByAccountIdAsync(Guid accountId, CancellationToken cancellationToken)
         {
             var existedProfile = await _userProfileRepository.FindUserProfileByAccountIdAsync(accountId, cancellationToken);
             if (existedProfile is null)
@@ -76,16 +89,13 @@ namespace ServiceUser.Domain.Services
             }
 
             await _userProfileRepository.Delete(existedProfile, cancellationToken);
-            //как быть
-            //return existedProfile.PetId;
-            return Guid.Empty;
         }
 
-        private bool IsAddUserProfileAvailable(Guid accountId, CancellationToken cancellationToken)
+        private async Task<bool> IsAddUserProfileAvailable(Guid accountId, CancellationToken cancellationToken)
         {
             try
             {
-                var existedUserProfile = _userProfileRepository.FindUserProfileByAccountIdAsync(accountId, cancellationToken);
+                var existedUserProfile = await _userProfileRepository.FindUserProfileByAccountIdAsync(accountId, cancellationToken);
                 if (existedUserProfile != null)
                 {
                     return false;

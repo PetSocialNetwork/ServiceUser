@@ -9,9 +9,7 @@
         //public string? Education { get; set; } TODO
         public bool WalksDogs { get; set; }
         public string? Profession { get; set; }
-        public Guid? PetId { get; set; } //TODO: может быть много
         public Guid AccountId { get; set; }
-
-        //TODO: в последствии добавить фотографии
+        public bool IsProfileCompleted { get; set; } = false;
     }
 }
