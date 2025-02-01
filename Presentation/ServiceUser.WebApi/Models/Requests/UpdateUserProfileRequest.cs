@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿#pragma warning disable CS8618
+using System.ComponentModel.DataAnnotations;
 
 namespace ServiceUser.WebApi.Models.Requests
 {
@@ -9,7 +10,7 @@ namespace ServiceUser.WebApi.Models.Requests
         [Required]
         public string FirstName { get; set; }
         [Required]
-        public string? LastName { get; set; }
+        public string LastName { get; set; }
         public DateTime? DateOfBirth { get; set; }
         //public string? Education { get; set; } TODO
         public bool WalksDogs { get; set; }

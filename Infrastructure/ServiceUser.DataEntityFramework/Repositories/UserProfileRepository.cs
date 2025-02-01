@@ -17,5 +17,10 @@ namespace ServiceUser.DataEntityFramework.Repositories
         {
             return await Entities.SingleOrDefaultAsync(it => it.AccountId == accountId, cancellationToken);
         }
+
+        public async Task<List<UserProfile>> FindUserProfileByNameAsync(string firstName, string lastName, CancellationToken cancellationToken)
+        {
+            return await Entities.Where(u => u.FirstName.ToLower() == firstName.ToLower() && u.LastName.ToLower() == lastName.ToLower()).ToListAsync(cancellationToken);
+        }
     }
 }

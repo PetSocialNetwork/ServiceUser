@@ -6,5 +6,6 @@ namespace ServiceUser.Domain.Interfaces
     {
         Task<UserProfile?> FindUserProfileAsync(Guid id, CancellationToken cancellationToken);
         Task<UserProfile?> FindUserProfileByAccountIdAsync(Guid accountId, CancellationToken cancellationToken);
+        Task<List<UserProfile>> FindUserProfileByNameAsync(string firstName, string lastName, CancellationToken cancellationToken);
     }
 }

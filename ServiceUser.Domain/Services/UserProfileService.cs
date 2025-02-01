@@ -33,7 +33,7 @@ namespace ServiceUser.Domain.Services
                 throw new UserProfileNotFoundException("Пользователя с таким профилем не существует.");
             }
 
-           return existedProfile;
+            return existedProfile;
         }
 
         public async Task<UserProfile> AddUserProfileAsync(Guid accountId, CancellationToken cancellationToken)
@@ -47,12 +47,12 @@ namespace ServiceUser.Domain.Services
 
             await _userProfileRepository.Add(userProfile, cancellationToken);
             return userProfile;
-        }       
+        }
 
         public async Task UpdateUserProfileAsync(UserProfile userProfile, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(userProfile);
-            var existedProfile = await _userProfileRepository.FindUserProfileAsync(userProfile.AccountId, cancellationToken);
+            var existedProfile = await _userProfileRepository.FindUserProfileAsync(userProfile.Id, cancellationToken);
             if (existedProfile is null)
             {
                 throw new UserProfileNotFoundException("Пользователя с таким профилем не существует.");
@@ -106,6 +106,14 @@ namespace ServiceUser.Domain.Services
                 return false;
             }
             return true;
+        }
+
+        public async Task<List<UserProfile>> FindUserProfileByNameAsync(string firstName, string lastName, CancellationToken cancellationToken)
+        {
+            ArgumentException.ThrowIfNullOrWhiteSpace(nameof(firstName));
+            ArgumentException.ThrowIfNullOrWhiteSpace(nameof(lastName));
+
+            return await _userProfileRepository.FindUserProfileByNameAsync(firstName, lastName, cancellationToken);
         }
     }
 }
