@@ -87,5 +87,16 @@ namespace ServiceUser.WebApi.Controllers
                 .FindUserProfileByNameAsync(firstName, lastName, cancellationToken);
             return _mapper.Map<List<UserProfileResponse>>(profiles);
         }
+
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(UserProfileNotFoundException))]
+        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [HttpGet("[action]")]
+        public async Task<List<UserProfileResponse>> GetUserProfilesAsync([FromBody] List<Guid> userIds, CancellationToken cancellationToken)
+        {
+            var profiles = await _userProfileService
+                .GetUserProfilesAsync(userIds, cancellationToken);
+            return _mapper.Map<List<UserProfileResponse>>(profiles);
+        }
     }
 }

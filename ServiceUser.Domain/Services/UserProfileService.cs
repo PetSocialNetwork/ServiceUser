@@ -115,5 +115,15 @@ namespace ServiceUser.Domain.Services
 
             return await _userProfileRepository.FindUserProfileByNameAsync(firstName, lastName, cancellationToken);
         }
+
+        public async Task<List<UserProfile>> GetUserProfilesAsync(List<Guid> userIds, CancellationToken cancellationToken)
+        {
+            if (userIds == null || userIds.Count == 0)
+            {
+                throw new UserProfileNotFoundException("Коллекция пуста");
+            }
+
+            return await _userProfileRepository.GetUserProfilesAsync(userIds, cancellationToken);
+        }
     }
 }

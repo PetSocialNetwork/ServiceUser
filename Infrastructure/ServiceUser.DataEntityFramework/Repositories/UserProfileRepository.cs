@@ -22,5 +22,10 @@ namespace ServiceUser.DataEntityFramework.Repositories
         {
             return await Entities.Where(u => u.FirstName.ToLower() == firstName.ToLower() && u.LastName.ToLower() == lastName.ToLower()).ToListAsync(cancellationToken);
         }
+
+        public async Task<List<UserProfile>> GetUserProfilesAsync(List<Guid> userIds, CancellationToken cancellationToken)
+        {
+            return await Entities.Where(x => userIds.Contains(x.Id)).ToListAsync(cancellationToken);
+        }
     }
 }
