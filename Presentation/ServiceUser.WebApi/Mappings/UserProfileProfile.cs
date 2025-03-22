@@ -16,6 +16,8 @@ namespace ServiceUser.WebApi.Mappings
                 .ForMember(dest => dest.DateOfBirth, opt => opt.MapFrom(src => src.DateOfBirth))
                 .ForMember(dest => dest.WalksDogs, opt => opt.MapFrom(src => src.WalksDogs))
                 .ForMember(dest => dest.Profession, opt => opt.MapFrom(src => src.Profession))
+                .ForMember(dest => dest.AboutSelf, opt => opt.MapFrom(src => src.AboutSelf))
+                .ForMember(dest => dest.Interests, opt => opt.MapFrom(src => src.Interests))
                 .ForMember(dest => dest.AccountId, opt => opt.MapFrom(src => src.AccountId))
                 .ForMember(dest => dest.IsProfileCompleted, opt => opt.MapFrom(src => src.IsProfileCompleted));
 

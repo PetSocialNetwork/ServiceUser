@@ -24,8 +24,9 @@ namespace ServiceUser.WebApi.Filters
         {
             return context.Exception switch
             {
-                UserProfileNotFoundException => ("Пользователь с данным профилем не найден.", StatusCodes.Status400BadRequest),
-                Exception => ("Неизвестная ошибка.", StatusCodes.Status500InternalServerError),
+                UserProfileNotFoundException => ("Пользователь с данным профилем не найден", StatusCodes.Status400BadRequest),
+                UserProfileWithAccountAlreadyExistsException => ("У данного аккаунта профиль уже существует", StatusCodes.Status400BadRequest),
+                Exception => ("Внутренняя ошибка сервера", StatusCodes.Status500InternalServerError),
                 _ => (null, 0)
             };
         }

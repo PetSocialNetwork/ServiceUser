@@ -12,9 +12,11 @@ namespace ServiceUser.WebApi.Models.Requests
         [Required]
         public string LastName { get; set; }
         public DateTime? DateOfBirth { get; set; }
-        //public string? Education { get; set; } TODO
+        public string? AboutSelf { get; set; }
+        public string? Interests { get; set; }
         public bool WalksDogs { get; set; }
         public string? Profession { get; set; }
+        [Required]
         public Guid AccountId { get; set; }
         public bool IsProfileCompleted { get; set; } = false;
     }

@@ -21,7 +21,7 @@ namespace ServiceUser.Domain.Services
             }
             catch (InvalidOperationException)
             {
-                throw new UserProfileNotFoundException("Пользователя с таким профилем не существует.");
+                throw new UserProfileNotFoundException("Пользователя с таким профилем не существует");
             }
         }
 
@@ -30,7 +30,7 @@ namespace ServiceUser.Domain.Services
             var existedProfile = await _userProfileRepository.FindUserProfileByAccountIdAsync(accountId, cancellationToken);
             if (existedProfile is null)
             {
-                throw new UserProfileNotFoundException("Пользователя с таким профилем не существует.");
+                throw new UserProfileNotFoundException("Пользователя с таким профилем не существует");
             }
 
             return existedProfile;
@@ -40,7 +40,7 @@ namespace ServiceUser.Domain.Services
         {
             if (!await IsAddUserProfileAvailable(accountId, cancellationToken))
             {
-                throw new UserProfileWithAccountAlreadyExistsException("У данного аккаунта профиль уже существует.");
+                throw new UserProfileWithAccountAlreadyExistsException("У данного аккаунта профиль уже существует");
             };
 
             UserProfile userProfile = new UserProfile(Guid.NewGuid(), accountId) { IsProfileCompleted = false };
@@ -55,7 +55,7 @@ namespace ServiceUser.Domain.Services
             var existedProfile = await _userProfileRepository.FindUserProfileAsync(userProfile.Id, cancellationToken);
             if (existedProfile is null)
             {
-                throw new UserProfileNotFoundException("Пользователя с таким профилем не существует.");
+                throw new UserProfileNotFoundException("Пользователя с таким профилем не существует");
             }
 
             existedProfile.Profession = userProfile.Profession;
@@ -63,7 +63,8 @@ namespace ServiceUser.Domain.Services
             existedProfile.FirstName = userProfile.FirstName;
             existedProfile.LastName = userProfile.LastName;
             existedProfile.WalksDogs = userProfile.WalksDogs;
-            //Ставим true, так как Имя и Фамилия, передаваемы через request не могут быть переданными пустыми
+            existedProfile.AboutSelf = userProfile.AboutSelf;
+            existedProfile.Interests = userProfile.Interests;
             existedProfile.IsProfileCompleted = true;
 
             await _userProfileRepository.Update(existedProfile, cancellationToken);
@@ -74,7 +75,7 @@ namespace ServiceUser.Domain.Services
             var existedProfile = await _userProfileRepository.FindUserProfileAsync(id, cancellationToken);
             if (existedProfile is null)
             {
-                throw new UserProfileNotFoundException("Пользователя с таким профилем не существует.");
+                throw new UserProfileNotFoundException("Пользователя с таким профилем не существует");
             }
 
             await _userProfileRepository.Delete(existedProfile, cancellationToken);
@@ -85,7 +86,7 @@ namespace ServiceUser.Domain.Services
             var existedProfile = await _userProfileRepository.FindUserProfileByAccountIdAsync(accountId, cancellationToken);
             if (existedProfile is null)
             {
-                throw new UserProfileNotFoundException("Пользователя с таким профилем не существует.");
+                throw new UserProfileNotFoundException("Пользователя с таким профилем не существует");
             }
 
             await _userProfileRepository.Delete(existedProfile, cancellationToken);
