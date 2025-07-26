@@ -1,4 +1,5 @@
 ﻿using ServiceUser.Domain.Entities;
+using ServiceUser.Domain.Shared;
 
 namespace ServiceUser.Domain.Interfaces
 {
@@ -7,6 +8,6 @@ namespace ServiceUser.Domain.Interfaces
         Task<UserProfile?> FindUserProfileAsync(Guid id, CancellationToken cancellationToken);
         Task<UserProfile?> FindUserProfileByAccountIdAsync(Guid accountId, CancellationToken cancellationToken);
         Task<List<UserProfile>> GetUserProfilesAsync(List<Guid> userIds, CancellationToken cancellationToken);
-        Task<List<UserProfile>> FindUserProfileByNameAsync(string firstName, string lastName, CancellationToken cancellationToken);
+        Task<List<UserProfile>> FindUserProfileByNameAsync(string firstName, string lastName, PaginationOptions options, CancellationToken cancellationToken);
     }
 }

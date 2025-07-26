@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ServiceUser.Domain.Entities;
 using ServiceUser.Domain.Interfaces;
+using ServiceUser.Domain.Shared;
 
 namespace ServiceUser.DataEntityFramework.Repositories
 {
@@ -18,9 +19,17 @@ namespace ServiceUser.DataEntityFramework.Repositories
             return await Entities.SingleOrDefaultAsync(it => it.AccountId == accountId, cancellationToken);
         }
 
-        public async Task<List<UserProfile>> FindUserProfileByNameAsync(string firstName, string lastName, CancellationToken cancellationToken)
+        public async Task<List<UserProfile>> FindUserProfileByNameAsync
+            (string firstName, 
+            string lastName,
+            PaginationOptions options,
+            CancellationToken cancellationToken)
         {
-            return await Entities.Where(u => u.FirstName.ToLower() == firstName.ToLower() && u.LastName.ToLower() == lastName.ToLower()).ToListAsync(cancellationToken);
+            return await Entities
+                .Where(u => u.FirstName.ToLower() == firstName.ToLower() && u.LastName.ToLower() == lastName.ToLower())
+                .Skip(options.Take * options.Offset)
+                .Take(options.Take)
+                .ToListAsync(cancellationToken);
         }
 
         public async Task<List<UserProfile>> GetUserProfilesAsync(List<Guid> userIds, CancellationToken cancellationToken)

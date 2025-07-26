@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
 using ServiceUser.Domain.Entities;
+using ServiceUser.Domain.Shared;
 using ServiceUser.WebApi.Models.Requests;
 using ServiceUser.WebApi.Models.Responses;
 
 namespace ServiceUser.WebApi.Mappings
 {
-    public class UserProfileProfile : Profile
+    public class UserMappingProfile : Profile
     {
-        public UserProfileProfile()
+        public UserMappingProfile()
         {
             CreateMap<UserProfile, UserProfileResponse>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
@@ -21,7 +22,13 @@ namespace ServiceUser.WebApi.Mappings
                 .ForMember(dest => dest.AccountId, opt => opt.MapFrom(src => src.AccountId))
                 .ForMember(dest => dest.IsProfileCompleted, opt => opt.MapFrom(src => src.IsProfileCompleted));
 
+            CreateMap<AddUserProfileRequest, UserProfile>()
+               .ForMember(dest => dest.Id, opt => opt.MapFrom(src => Guid.NewGuid()))
+               .ForMember(dest => dest.AccountId, opt => opt.MapFrom(src => src.AccountId))
+               .ForMember(dest => dest.IsProfileCompleted, opt => opt.MapFrom(src => false));
+
             CreateMap<UpdateUserProfileRequest, UserProfile>();
+            CreateMap<PaginationRequest, PaginationOptions>();
         }
     }
 }
