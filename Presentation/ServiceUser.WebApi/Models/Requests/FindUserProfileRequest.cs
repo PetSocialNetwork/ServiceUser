@@ -2,7 +2,7 @@
 
 namespace ServiceUser.WebApi.Models.Requests
 {
-    public class FindUserProfileRequest : PaginationRequest
+    public class FindUserProfileRequest
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
